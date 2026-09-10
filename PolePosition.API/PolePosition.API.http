@@ -1,0 +1,6 @@
+@PolePosition.API_HostAddress = http://localhost:5171
+
+GET {{PolePosition.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
