@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  polepositiondb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: polepositiondb
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "${DB_SA_PASSWORD}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - polepositiondb_data:/var/opt/mssql
+    networks:
+      - poleposition_net
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: poleposition_rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASSWORD}"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - poleposition_net
+
+  poleposition.api:
+    build:
+      context: .
+      dockerfile: PolePosition.API/Dockerfile
+    container_name: poleposition_api
+    depends_on:
+      - polepositiondb
+      - rabbitmq
+    ports:
+      - "5000:8080"
+    env_file:
+      - .env
+    networks:
+      - poleposition_net
+
+  poleposition.worker:
+    build:
+      context: .
+      dockerfile: PolePosition.Worker/Dockerfile
+    container_name: poleposition_worker
+    depends_on:
+      - rabbitmq
+      - polepositiondb
+    env_file:
+      - .env
+    networks:
+      - poleposition_net
+
+networks:
+  poleposition_net:
+    driver: bridge
+
+volumes:
+  polepositiondb_data:
