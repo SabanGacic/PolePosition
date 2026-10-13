@@ -47,6 +47,26 @@ namespace PolePosition.API.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Name = "Driver",
+                            NormalizedName = "DRIVER"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            Name = "Instructor",
+                            NormalizedName = "INSTRUCTOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -259,6 +279,20 @@ namespace PolePosition.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EquipmentTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AdditionalPrice = 0m,
+                            Name = "Kaciga"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AdditionalPrice = 5m,
+                            Name = "Kombinezon"
+                        });
                 });
 
             modelBuilder.Entity("PolePosition.API.Models.IncidentRecord", b =>
@@ -318,6 +352,24 @@ namespace PolePosition.API.Migrations
                     b.HasIndex("TrackId");
 
                     b.ToTable("Karts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "K-01",
+                            Model = "Sodikart RT8",
+                            Status = 0,
+                            TrackId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "K-02",
+                            Model = "Sodikart RT8",
+                            Status = 0,
+                            TrackId = 1
+                        });
                 });
 
             modelBuilder.Entity("PolePosition.API.Models.LapResult", b =>
@@ -605,6 +657,26 @@ namespace PolePosition.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SessionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Opusten krug bez pritiska vremena",
+                            Name = "Slobodna voznja"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Takmicarska sesija sa rang listom",
+                            Name = "Trka"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Sesija sa instruktorom za pocetnike",
+                            Name = "Obuka"
+                        });
                 });
 
             modelBuilder.Entity("PolePosition.API.Models.Track", b =>
@@ -632,6 +704,15 @@ namespace PolePosition.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tracks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LengthMeters = 850.0,
+                            Location = "Bugojno",
+                            Name = "Kart Arena Bugojno"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
