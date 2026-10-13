@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PolePosition.API.Data;
 using PolePosition.API.Models;
+using PolePosition.API.Middleware;
+using PolePosition.API.Services;
 
 // Load environment variables from .env file
 Env.Load(Path.Combine(Directory.GetCurrentDirectory(), "..", ".env"));
@@ -22,7 +24,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<ITrackService, TrackService>();
+
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
