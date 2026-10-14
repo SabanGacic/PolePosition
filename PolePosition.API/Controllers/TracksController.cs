@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PolePosition.API.Common;
 using PolePosition.API.DTOs;
@@ -7,6 +8,7 @@ namespace PolePosition.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class TracksController : ControllerBase
 {
     private readonly ITrackService _trackService;
@@ -25,6 +27,7 @@ public class TracksController : ControllerBase
         => Ok(await _trackService.GetByIdAsync(id));
 
     [HttpPost]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<ActionResult<TrackDto>> Create(TrackUpsertDto dto)
     {
         var created = await _trackService.CreateAsync(dto);
@@ -32,10 +35,12 @@ public class TracksController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<ActionResult<TrackDto>> Update(int id, TrackUpsertDto dto)
         => Ok(await _trackService.UpdateAsync(id, dto));
 
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         await _trackService.DeleteAsync(id);

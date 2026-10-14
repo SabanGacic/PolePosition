@@ -22,6 +22,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<IncidentRecord> IncidentRecords => Set<IncidentRecord>();
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<RecommendationLog> RecommendationLogs => Set<RecommendationLog>();
+    public DbSet<RevokedToken> RevokedTokens => Set<RevokedToken>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -74,6 +75,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Payment>().Property(p => p.Amount).HasPrecision(10, 2);
         builder.Entity<Payment>().Property(p => p.RefundedAmount).HasPrecision(10, 2);
         builder.Entity<EquipmentType>().Property(e => e.AdditionalPrice).HasPrecision(10, 2);
+
+        builder.Entity<RevokedToken>().HasIndex(t => t.Jti).IsUnique();
+        builder.Entity<RevokedToken>().Property(t => t.Jti).HasMaxLength(64);
 
         // Seed roles
         var adminRoleId = "1";
