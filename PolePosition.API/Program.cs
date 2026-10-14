@@ -106,6 +106,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<ITrackService, TrackService>();
+builder.Services.AddScoped<ISessionTypeService, SessionTypeService>();
+builder.Services.AddScoped<IEquipmentTypeService, EquipmentTypeService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
